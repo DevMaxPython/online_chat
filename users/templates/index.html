@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'users/css/user_chat.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="main_block">
+      {% if user.is_authenticated %}
+        <div class="chats_list">
+        <h3>Список чатов</h3>
+        {% for one_user in users %}
+            <p>
+            <a href="{% url 'user_chat' reciever_id=one_user.id sender_id=request.user.id %}">{{ one_user }}</a>
+            </p>
+        {% endfor %}
+        </div>
+      {% else %}
+        <div>
+          <h1>Добро пожаловать</h1>
+        </div>
+      {% endif %}  
+    </div>
+
+{% endblock %}

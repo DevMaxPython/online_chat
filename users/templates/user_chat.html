@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'users/css/user_chat.css' %}">
+{% endblock %}
+
+{% block content %}
+    
+  <div class="main_block">
+
+    <div class="chats_list">
+      <h3>Список чатов</h3>
+      {% for one_user in users %}
+        <p>
+          <a href="{% url 'user_chat' reciever_id=one_user.id sender_id=request.user.id %}">{{ one_user }}</a>
+        </p>
+      {% endfor %}
+    </div>
+
+    <div class="chat">
+      <h3 class="title_chat">Messages between {{ sender.username }} and {{ reciever.username }}</h3>
+      <div class="messages" id="messages-container">
+        {% for one_message in messages %}
+          {% if one_message.sender == request.user  %}
+            <div class="sender">
+              <div class="info_about_message">{{ one_message.time_stamp }} | {{ one_message.sender.username }}</div>
+              <div class="text_message">{{ one_message.message}}</div>
+            </div>
+
+          {% else %}
+            <div class="reciever">
+              <div class="info_about_message">{{ one_message.time_stamp }} | {{ one_message.sender.username }}</div>
+              <div class="text_message">{{ one_message.message}}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        <div class="block_send_messages">
+          <form method="post">
+              <div class="block_send_messages_in_form">
+                <div class="block_form_field">
+                  {% csrf_token %}
+                  {{ form.message }}
+                </div>
+                <div class="block_btn_send_msg">
+                  <button class="btn_send_msg" type="submit">Отправить</button>
+                </div>
+              </div>
+          </form>
+        </div>
+
+      </div>
+
+
+      
+
+    </div>
+  </div>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var messagesContainer = document.getElementById("messages-container");
+
+    if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    });
+
+  </script>
+
+{% endblock %}
