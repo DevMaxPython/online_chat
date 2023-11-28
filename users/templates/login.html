@@ -1,30 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/login.css' %}">
+</head>
+<body>
+    <div class="main_block">
 
-
-<div>
-    <h3>Логин</h3>
-    <form method="post">
-        {% csrf_token %}
-        <label>Имя пользователя</label>
-        {{ login_form.username}}
-        <label>Пароль</label>
-        {{ login_form.password}}
+        <div class="login_block wrapper_login_style" id="login_block">
+            <div class="wrapper_login" id="wrapper_login">
+                <h2>Авторизироватся</h2>
+                <p>Есть аккаунт? Аторизируйтесь!</p>
+            </div>
+            <div class="choice_login_block" id="choice_login_block">
+                <h3 class="title_login">Авторизация</h3>
+                <form method="post" class="form_login" id="form_login">
+                    {% csrf_token %}
+                    <label class="label_username">Имя пользователя</label>
+                    <p><input class="field_input_username" type="text" name="username" id="login_name"></p>
+                    
+                    <label class="label_password">Пароль</label>
+                    <p><input class="field_input_password" type="password" name="password" id="login_password"></p>
+                    
+                    <button class="btn_login" type="submit" name="login">Войти</button>
+                </form>
         
-        <button type="submit" name="login">Войти</button>
-    </form>
+                <div class="error_login">
+                    {% for key, value in login_form.errors.items %} 
+                        <p class="error">{{ value }}</p> 
+                    {% endfor %} 
+                </div>
+            </div>
+            
+        </div>
     
-</div>
-
-
-<div>
-    <h3>Регистрация</h3>
-    <form method="post">
-        {% csrf_token %}
-        <label>Логин</label>
-        {{ registration_form.username }}
-        <label>Пароль</label>
-        {{ registration_form.password1 }}
-        <button type="submit" name="registration">Регистрация</button>
-    </form>
-
     
-</div>
+        <div class="registration_block wrapper_registration_style" id="registration_block">
+            <div class="wrapper_registration" id="wrapper_registration">
+                <h2>Зарегистрироватся</h2>
+                <p>Нет аккаунта? Создайте!</p>
+            </div>
+            <div class="choice_registration_block" id="choice_registration_block">
+                <h3 class="title_registration">Регистрация</h3>
+                <form method="post" class="form_registration" id="form_registration" >
+                    {% csrf_token %}
+                    <label class="label_username">Имя пользователя</label>
+                    <p><input class="field_input_username" type="password" name="username" id="registration_username"></p>
+                    
+                    <label class="label_password">Пароль</label>
+                    <p><input class="field_input_password" type="password" name="password1" id="registration_password"></p>
+                    
+                    <button class="btn_registration" type="submit" name="registration">Регистрация</button>
+                </form>
+        
+                <div class="error_registration">
+                    {% for key, value in registration_form.errors.items %} 
+                        <p class="error">{{ value }}</p> 
+                    {% endfor %} 
+                </div>  
+            </div>
+        </div>
+    
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var login_block = document.getElementById('login_block');
+            var registration_block = document.getElementById('registration_block');
+
+            var choice_login_block = document.getElementById('choice_login_block');
+            var wrapper_login = document.getElementById('wrapper_login');
+
+            var choice_registration_block = document.getElementById('choice_registration_block');
+            var wrapper_registration = document.getElementById('wrapper_registration');
+    
+            login_block.addEventListener('click', function () {
+                wrapper_login.style.display = 'none';
+                choice_login_block.style.display = 'block';
+                login_block.classList.remove('wrapper_login_style');
+            });
+    
+            registration_block.addEventListener('click', function () {
+                wrapper_registration.style.display = 'none';
+                choice_registration_block.style.display = 'block';
+                registration_block.classList.remove('wrapper_registration_style');
+            });
+        });
+    </script>
+</body>
+</html>
+
+

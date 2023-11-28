@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 
 {% block css %}
@@ -8,58 +9,59 @@
 
 {% block content %}
     
-  <div class="main_block">
 
-    <div class="chats_list">
-      <h3>Список чатов</h3>
-      {% for one_user in users %}
-        <p>
-          <a href="{% url 'user_chat' reciever_id=one_user.id sender_id=request.user.id %}">{{ one_user }}</a>
-        </p>
-      {% endfor %}
-    </div>
 
-    <div class="chat">
-      <h3 class="title_chat">Messages between {{ sender.username }} and {{ reciever.username }}</h3>
-      <div class="messages" id="messages-container">
+<div class="chat">
+
+  <div class="block_title_chat">
+    <h3 class="title_chat">Messages between {{ sender.username }} and {{ reciever.username }}</h3>
+  </div>
+  
+  <div class="background">
+    <div class="messages">
+
+      <div class="block_list_messages" id="messages-container">
         {% for one_message in messages %}
           {% if one_message.sender == request.user  %}
             <div class="sender">
               <div class="info_about_message">{{ one_message.time_stamp }} | {{ one_message.sender.username }}</div>
-              <div class="text_message">{{ one_message.message}}</div>
+              <div class="text_message">
+                {{ one_message.message|insert_linebreaks|safe }}
+              </div>
             </div>
-
           {% else %}
             <div class="reciever">
               <div class="info_about_message">{{ one_message.time_stamp }} | {{ one_message.sender.username }}</div>
-              <div class="text_message">{{ one_message.message}}</div>
+              <div class="text_message">
+                {{ one_message.message|insert_linebreaks|safe }}
+              </div>
             </div>
           {% endif %}
         {% endfor %}
-        <div class="block_send_messages">
-          <form method="post">
-              <div class="block_send_messages_in_form">
-                <div class="block_form_field">
-                  {% csrf_token %}
-                  {{ form.message }}
-                </div>
-                <div class="block_btn_send_msg">
-                  <button class="btn_send_msg" type="submit">Отправить</button>
-                </div>
-              </div>
-          </form>
-        </div>
-
       </div>
 
-
-      
+      <div class="block_send_messages">
+        <form method="post">
+            <div class="block_send_messages_in_form">
+              <div class="block_form_field">
+                {% csrf_token %}
+                <textarea class="input_form_msg" wrap="hard"  name="message" oninput="autoExpandTextarea(this)"></textarea>
+                
+              </div>
+              <div class="block_btn_send_msg">
+                <button class="btn_send_msg" type="submit"></button>
+              </div>
+            </div>
+        </form> 
+      </div>
 
     </div>
   </div>
+</div>
 
 
   <script>
+    // Функция для скролла в конец  перписки при открытии чата
     document.addEventListener("DOMContentLoaded", function() {
     var messagesContainer = document.getElementById("messages-container");
 
@@ -67,6 +69,36 @@
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
     });
+
+
+    // Функция для автоматического изменения высоты textarea
+    function autoExpandTextarea(element) {
+      var maxHeight = 200;
+      element.style.height = 'auto';
+      element.style.height = (Math.min(element.scrollHeight, maxHeight)) + 'px';
+    }
+
+
+
+    function autoExpandTextarea(element) {
+      // Максимальное количество строк (рядов)
+      const maxRows = 5;
+
+      // Устанавливаем высоту в auto для пересчета
+      element.style.height = "auto";
+
+      // Устанавливаем высоту в новое значение
+      element.style.height = Math.min(element.scrollHeight, maxRows * parseFloat(getComputedStyle(element).lineHeight)) + "px";
+    }
+
+    // Привязываем функцию к каждому textarea с классом text_message_area
+    document.addEventListener("input", function (e) {
+      if (e.target.tagName.toLowerCase() === "textarea" && e.target.classList.contains("text_message_area")) {
+        autoExpandTextarea(e.target);
+      }
+    });
+
+
 
   </script>
 

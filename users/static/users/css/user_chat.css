@@ -1,16 +1,6 @@
-.main_block {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    margin: 0 auto;
-  }
 
-  .chats_list{
-    margin-right: 50px;
-    width: 300px;
-    border: 1px solid #ccc;
-    text-align: center;
-  }
+
+ 
   
   .title_chat {
     font-size: 24px;
@@ -20,20 +10,33 @@
   .chat {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    border: 1px solid black;
   }
   
+  .background{
+    height: 100vh; /* Ограничение высоты блока сообщений */
+    background-color: rgb(185, 245, 245);   
+  }
+
   .messages {
     display: flex;
     flex-direction: column;
-    height: 400px; /* Ограничение высоты блока сообщений */
-    overflow-y: auto; /* Полосы прокрутки, если сообщений слишком много */
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
+    height: 85%; /* Ограничение высоты блока сообщений */
+    background-color: rgb(185, 245, 245);   
+  }
+
+  .block_list_messages{
     width: 1000px;
+    display: flex;
+    flex-direction: column;
     padding-left: 200px;
     padding-right: 200px;
-    background-color: rgb(185, 245, 245);
+    flex-grow: 1; /* Замените height: 90% и overflow-y: auto; на flex-grow: 1; */
+    overflow-y: auto; /* Добавьте overflow-y: auto; */
+    overflow-x: hidden;
+    padding: 10px;
+    margin-bottom: 20px;
   }
   
   .sender {
@@ -44,6 +47,8 @@
     border: 1px solid #ccc;
     background-color: white;
     width: 300px;
+    flex-grow: 1;
+    
   }
 
   .reciever {
@@ -54,51 +59,73 @@
     border: 1px solid #ccc;
     background-color: white;
     width: 300px;
+    box-sizing: border-box;
+    flex-grow: 1;
     
   }
+
   
-  .sender .info_about_message, .reciever .info_about_message {
-    font-size: 12px;
-    color: #666;
+  .info_about_message {
+      font-size: 12px;
+      color: #666;
+    }
+
+  .text_message{
+    flex-grow: 1; /* Растягивание textarea внутри блока sender/receiver */
+    
+    width: 300px;
   }
-  
-  .sender .text_message, .reciever .text_message {
+
+  .text_message_area{
     font-size: 16px;
+    resize: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: hidden; /* Скрытие вертикальной полосы прокрутки */
+    flex-grow: 1;
+    
+    height:min-content;
   }
   
   /* ================================================ БЛОК ОТПРАВКИ СООБЩЕНИЙ ============================================== */
   .block_send_messages {
-    position: sticky;
-    bottom: 0;
+    
     width: 100%;
   }
 
   .block_send_messages_in_form{
     display: flex;
     flex-direction: row;
-    
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 
   .block_form_field{
-    
+    margin: 10px;
   }
 
-  .input_form_msg{
-    width: 600px;
-    
+  .input_form_msg {
+    width: 500px;
+    min-height: 50px; 
     resize: none;
-  }
+}
 
   .block_btn_send_msg{
-
+    margin-left: 10px;
   }
   
   .btn_send_msg {
+    width: 50px; /* Регулируйте ширину кнопки */
+    height: 50px; /* Регулируйте высоту кнопки */
+    border-radius: 50%; /* Устанавливаем радиус скругления в половину ширины и высоты */
     background-color: #007bff;
     color: #fff;
     border: none;
     cursor: pointer;
-    border-radius: 50px;
   }
   
   .btn_send_msg:hover {

@@ -1,0 +1,68 @@
+body{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.header{
+    background-color: #333; /* Цвет фона, измените по необходимости */
+    color: white; /* Цвет текста, измените по необходимости */
+    padding: 10px; /* Внутренний отступ, если нужен */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* По необходимости установите значение z-index, чтобы заголовок оставался поверх других элементов */
+}
+
+.base_main_block{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    height: 100%;
+}
+
+.main_div{
+    margin-top: 30px;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px; /* Расстояние между ссылками, измените по необходимости */
+}
+
+.main_menu{
+    border: 1px solid black;
+    width: 25%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+.search_menu{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-bottom: 1px solid black;
+    
+}
+
+.block_input_search{
+    
+}
+
+.users_found{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.block_main_content{
+    height: 100%;
+    width: 70%;
+}
+

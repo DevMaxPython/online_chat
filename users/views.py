@@ -19,7 +19,7 @@ def index(request):
 def login(request):
     login_form = CustomAuthenticationForm()
     registration_form = RegistrationForm()
-    context = {'login_form': login_form, 'registration_form': registration_form}
+    
     
 
     if request.method == 'POST':
@@ -34,6 +34,7 @@ def login(request):
                 if user:
                     auth.login(request, user)
                     return redirect('index')
+
         elif 'registration' in request.POST:
             registration_form = RegistrationForm(request.POST)
             if registration_form.is_valid():
@@ -41,20 +42,9 @@ def login(request):
                 auth.login(request, user)
                 return redirect('index')
     
-    print(context)
+    
+    context = {'login_form': login_form, 'registration_form': registration_form}
     return render(request, 'login.html', context)
-
-
-# def registration(request):
-#     if request.method != 'POST':
-#         form = RegistrationForm()
-#     else:
-#         form = RegistrationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             auth.login(request, user)
-#             return redirect('index')
-#     return render(request, 'registration.html', {'form': form})
 
 
 @login_required
@@ -65,9 +55,13 @@ def logout(request):
 
 @login_required
 def user_search(request):
+    # Получите список чатов или пользователей с которыми была переписка
+    users_with_messages_list = UserMessages.objects.filter(Q(sender=request.user) | Q(reciever=request.user)).values_list('sender', 'reciever')
+    users = User.objects.filter(Q(id__in=[user[0] for user in users_with_messages_list]) | Q(id__in=[user[1] for user in users_with_messages_list])).exclude(id=request.user.id)
+
     query = request.GET.get('q')
     users_search = User.objects.filter(username__icontains=query) if query else []
-    context = {'query': query, 'users_search': users_search}
+    context = {'query': query, 'users_search': users_search, 'users':users}
     return render(request, 'index.html', context)
 
 

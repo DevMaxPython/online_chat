@@ -1,0 +1,94 @@
+body {
+  background-color: #ccc;
+  overflow-y: hidden;
+}
+
+.main_block {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* .wrapper_login{
+    
+  } */
+
+  .wrapper_login_style{
+    background-color: rgb(139, 139, 255);
+  }
+
+  /* .wrapper_registration{
+    
+  } */
+
+  .wrapper_registration_style{
+    background-color: rgb(255, 215, 142);
+  }
+
+  .choice_login_block{
+    display: none;
+  }
+
+  .choice_registration_block{
+    display: none;
+  }
+  
+  .login_block,
+  .registration_block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    width: 400px;
+    height: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .title_login,
+  .title_registration {
+    text-align: center;
+    
+  }
+  
+  .form_login,
+  .form_registration {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label_username,
+  .label_password {
+    margin-bottom: 5px;
+  }
+  
+  .field_input_username,
+  .field_input_password {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .btn_login,
+  .btn_registration {
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn_login:hover,
+  .btn_registration:hover {
+    background-color: #45a049;
+  }
+  
+  .error_login,
+  .error_registration {
+    margin-top: 15px;
+    color: red;
+  }
+  
