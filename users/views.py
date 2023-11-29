@@ -2,18 +2,37 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserChangeForm
 from .models import User, UserMessages
-from .forms import RegistrationForm, CustomAuthenticationForm, SendMessaggesForm
+from .forms import RegistrationForm, CustomAuthenticationForm, SendMessaggesForm, CustomChangeFormProfile
 from django.contrib import auth
 
 # Create your views here.
+
+# def profile(request):
+#     user_data_form = CustomChangeFormProfile(instance=request.user)
+#     if request.method == 'POST':
+#         user_data_form = CustomChangeFormProfile(request.POST, instance=request.user)
+#         if user_data_form.is_valid():
+#             user_data_form.save()
+#             return redirect(request.META.get('HTTP_REFERER'))
+#     context = {'user_data_form': user_data_form}
+#     return context
 
 @login_required
 def index(request):
     # Получите список чатов или пользователей с которыми была переписка
     users_with_messages_list = UserMessages.objects.filter(Q(sender=request.user) | Q(reciever=request.user)).values_list('sender', 'reciever')
     users = User.objects.filter(Q(id__in=[user[0] for user in users_with_messages_list]) | Q(id__in=[user[1] for user in users_with_messages_list])).exclude(id=request.user.id)
-    return render(request, 'index.html', {'users':users})
+
+    user_data_form = CustomChangeFormProfile(instance=request.user)
+    if request.method == 'POST':
+        user_data_form = CustomChangeFormProfile(request.POST, request.FILES, instance=request.user)
+        if user_data_form.is_valid():
+            user_data_form.save()
+            return redirect(request.META.get('HTTP_REFERER'))
+        
+    return render(request, 'index.html', {'users':users, 'user_data_form':user_data_form})
 
 
 def login(request):
@@ -104,6 +123,9 @@ def user_chat(request, sender_id, reciever_id):
                'messages': messages,
                'users': users_with_messages}
     return render(request, 'user_chat.html', context)
+
+
+
 
     
 

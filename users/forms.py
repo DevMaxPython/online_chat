@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django import forms
 from django.core.validators import MinLengthValidator
 from .models import User, UserMessages
@@ -22,4 +22,12 @@ class SendMessaggesForm(forms.ModelForm):
     class Meta:
         model = UserMessages
         fields = ('message',)
+
+
+class CustomChangeFormProfile(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'email', 'image')
+
+
         

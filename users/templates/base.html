@@ -21,43 +21,76 @@
         <div class="base_main_block">
         
             <div class="main_menu">
-                <div class="search_menu">
-                    {% if user.is_authenticated %}
-                        <div class="block_input_search">
-                            <h2>Поиск</h2>
-                            <form method="get" action="{% url 'user_search' %}">
-                                <input type="text" name="q" value="{{ query }}" placeholder="Поиск пользователей">
-                                <button type="submit">Искать</button>
-                            </form>
-                        </div>
-
-                        <div class="users_found">
-                            {% if query %}
-                                {% for user in users_search %} 
-                                    <p><a href="{% url 'user_chat' reciever_id=user.id sender_id=request.user.id %}">Перейти к сообщениям с {{ user.username }}</a></p>
-                                {% empty %}
-                                    Нет результатов
-                                {% endfor %}   
-                            {% endif %}
-                        </div>
-                    {% endif %}
+                <div>
+                    <p id="btn_menu">Меню</p>
                 </div>
 
-                <div class="block_list_chats">
-                    {% if user.is_authenticated %}
-                    <div class="chats_list">
-                        <h3>Список чатов</h3>
-                        {% for one_user in users %}
-                            <p>
-                                <a href="{% url 'user_chat' reciever_id=one_user.id sender_id=request.user.id %}">{{ one_user }}</a>
-                            </p>
-                        {% endfor %}
+                <div class="start_menu" id="start_menu">
+                    <div class="search_menu">
+                        {% if user.is_authenticated %}
+                            <div class="block_input_search">
+                                <h2>Поиск</h2>
+                                <form method="get" action="{% url 'user_search' %}">
+                                    <input type="text" name="q" value="{{ query }}" placeholder="Поиск пользователей">
+                                    <button type="submit">Искать</button>
+                                </form>
+                            </div>
+
+                            <div class="users_found">
+                                {% if query %}
+                                    {% for user in users_search %} 
+                                        <p><a href="{% url 'user_chat' reciever_id=user.id sender_id=request.user.id %}">Перейти к сообщениям с {{ user.username }}</a></p>
+                                    {% empty %}
+                                        Нет результатов
+                                    {% endfor %}   
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
-                    {% else %}
+
+                    <div class="block_list_chats">
+                        {% if user.is_authenticated %}
+                        <div class="chats_list">
+                            <h3>Список чатов</h3>
+                            {% for one_user in users %}
+                                <p>
+                                    <a href="{% url 'user_chat' reciever_id=one_user.id sender_id=request.user.id %}">{{ one_user }}</a>
+                                </p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}  
+                    </div>  
+                </div>
+
+                <div class="data_user disabled" id="data_user">
                     <div>
-                        <h1>Добро пожаловать</h1>
+                        {% if user.image %}
+                            <img height="300px" width="200px" src="{{ user.image.url }}">
+                        {% else %}
+                            <p>Изображения нет</p>
+                        {% endif %}
                     </div>
-                    {% endif %}  
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div>
+                            <label for="user_data_form.image.id_for_label">Загрузка аватара</label>
+                            <input type="file" name="image">
+                        </div>
+                        <div>
+                            <label for="user_data_form.username.id_for_label">Имя пользователя</label>
+                            <input name="username" value="{{ user.username }}">
+                        </div>
+                        <div>
+                            <label for="user_data_form.first_name.id_for_label">Имя</label>
+                            <input name="first_name" value="{{ user.first_name }}">
+                        </div>
+                        <div>
+                            <label for="user_data_form.email.id_for_label">E-mail</label>
+                            <input name="email" value="{{ user.email }}">
+                        </div>
+                        
+                        <button type="submit">Сохранить</button>
+                    </form>
                 </div>
             </div>
 
@@ -69,7 +102,18 @@
         </div>
     </div>
 
-    
+<script>
+    let start_menu = document.getElementById('start_menu')
+    let data_user = document.getElementById('data_user')
+    let btn_menu = document.getElementById('btn_menu')
+
+    btn_menu.addEventListener('click', function() {
+        start_menu.classList.toggle('disabled')
+        data_user.classList.toggle('disabled')
+    });
+
+
+</script>    
     
 </body>
 </html>

@@ -47,7 +47,7 @@
     border: 1px solid #ccc;
     background-color: white;
     width: 300px;
-    flex-grow: 1;
+    
     
   }
 
@@ -60,7 +60,7 @@
     background-color: white;
     width: 300px;
     box-sizing: border-box;
-    flex-grow: 1;
+    
     
   }
 
@@ -71,7 +71,7 @@
     }
 
   .text_message{
-    flex-grow: 1; /* Растягивание textarea внутри блока sender/receiver */
+    
     
     width: 300px;
   }
@@ -84,7 +84,7 @@
     width: 100%;
     box-sizing: border-box;
     overflow-y: hidden; /* Скрытие вертикальной полосы прокрутки */
-    flex-grow: 1;
+    
     
     height:min-content;
   }
